@@ -63,3 +63,18 @@ test('check title and url', async () => {
 		.send(newBlog)
 		.expect(400);
 },100000)
+
+test('delete blog', async () => {
+	const id = "621208c12ab01338d149176b";
+	const blogsBefore = await BlogsInDb();
+	console.log('blogs Before ', blogsBefore.length)
+
+	await api
+		.delete(`/api/blogs/${id}`)
+		.expect(204)
+
+	const blogs = await BlogsInDb();
+	console.log("blogs " , blogs.length)
+
+	expect(blogs).toHaveLength(blogsBefore.length -1);
+})
